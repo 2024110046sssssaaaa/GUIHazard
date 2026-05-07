@@ -185,27 +185,3 @@ bash webarena_prompt_injections/setup.sh
 | HSR | 跨端信息传递成功率 |
 | CCR | 妥协完成率 |
 
----
-
-## 相关论文
-
-- **OS-Harm**: "OS-Harm: A Benchmark for Measuring Safety of Computer Use Agents" (NeurIPS 2025 Spotlight)
-- **MobileSafetyBench**: 移动端 GUI Agent 安全测评基准
-- **WASP**: "Benchmarking Web Agent Security Against Prompt Injection Attacks" (arXiv:2504.18575)
-
----
-
-## 致谢
-
-本框架基于以下开源项目构建：
-- [OSWorld](https://github.com/xlang-ai/OSWorld)
-- [MobileSafetyBench](https://github.com/)
-- [VisualWebArena](https://github.com/)
-- [WASP](https://github.com/)
-- [Anthropic Computer Use Demo](https://github.com/anthropics/anthropic-quickstarts/tree/main/computer-use-demo)
-
----
-
-## 许可证
-
-本项目采用 Apache 2.0 许可证。详细请参考各子模块的许可证文件。
