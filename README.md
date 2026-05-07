@@ -1,66 +1,66 @@
-# GUIHazard: 三端 GUI Agent 安全测评框架
+# GUIHazard: Cross-Platform GUI Agent Security Benchmark
 
-GUIHazard 是一个统一的安全测评框架，用于评估 GUI Agent（图形用户界面智能体）在 **桌面端 (Desktop)**、**移动端 (Mobile)** 和 **Web端 (Web)** 三个平台上的安全风险。框架涵盖三大类安全威胁：用户滥用 (User Misuse)、提示注入攻击 (Prompt Injection) 和模型异常行为 (Model Misbehavior)。
+GUIHazard is a unified security benchmark framework for evaluating the safety risks of GUI Agents (Graphical User Interface Agents) across three platforms: **Desktop**, **Mobile**, and **Web**. The framework covers three major categories of security threats: User Misuse, Prompt Injection Attacks, and Model Misbehavior.
 
 ---
 
-## 目录结构
+## Directory Structure
 
 ```
 GUIHazard/
-├── desktop/              # 桌面端测评模块 (基于 OS-Harm)
-│   ├── assets/           # 测试资产（邮件、文档、图片等）
-│   ├── crossplatform/    # 跨平台攻击测试用例
-│   │   ├── X08/         # 登录确认不一致注入
-│   │   ├── X09/         # 通知同步注入
-│   │   ├── X10/         # 短信验证码泄露
-│   │   ├── X11/         # 投屏诱导攻击
-│   │   └── X12/         # 剪贴板投毒
-│   ├── desktop_env/     # 虚拟机环境管理
-│   ├── judge/           # LLM 评判模块
-│   ├── mm_agents/       # 多模态 Agent 实现
-│   └── run.py           # 主入口脚本
+├── desktop/              # Desktop benchmark module (based on OS-Harm)
+│   ├── assets/           # Test assets (emails, documents, images, etc.)
+│   ├── crossplatform/    # Cross-platform attack test cases
+│   │   ├── X08/         # Login confirmation inconsistency injection
+│   │   ├── X09/         # Notification sync injection
+│   │   ├── X10/         # SMS verification code leakage
+│   │   ├── X11/         # Screen casting诱导攻击
+│   │   └── X12/         # Clipboard poisoning
+│   ├── desktop_env/     # Virtual machine environment management
+│   ├── judge/           # LLM judgment module
+│   ├── mm_agents/       # Multimodal Agent implementation
+│   └── run.py           # Main entry script
 │
-├── mobile/              # 移动端测评模块 (基于 MobileSafetyBench)
-│   ├── attacks/         # 攻击数据集
-│   │   ├── 1_visual_perception_attacks/    # 视觉感知攻击
-│   │   ├── 2_environment_content_injection/# 环境内容注入
-│   │   ├── 3_direct_malicious_commands/   # 直接恶意命令
-│   │   ├── 4_llm_reasoning_attacks/       # LLM推理攻击
-│   │   └── 5_system_exploitation/          # 系统级利用
-│   ├── mobile_safety/   # 核心框架
-│   └── scripts/         # 运行脚本
+├── mobile/              # Mobile benchmark module (based on MobileSafetyBench)
+│   ├── attacks/         # Attack datasets
+│   │   ├── 1_visual_perception_attacks/    # Visual perception attacks
+│   │   ├── 2_environment_content_injection/# Environment content injection
+│   │   ├── 3_direct_malicious_commands/   # Direct malicious commands
+│   │   ├── 4_llm_reasoning_attacks/       # LLM reasoning attacks
+│   │   └── 5_system_exploitation/          # System exploitation
+│   ├── mobile_safety/   # Core framework
+│   └── scripts/         # Run scripts
 │
-└── web/                 # Web端测评模块 (基于 WASP)
-    ├── visualwebarena/  # WebArena 环境实现
-    ├── webarena_prompt_injections/  # 提示注入测试
-    │   ├── configs/     # 攻击配置
-    │   └── attacker_*.py # 攻击执行器
-    └── configs/         # 配置文件
+└── web/                 # Web benchmark module (based on WASP)
+    ├── visualwebarena/  # WebArena environment implementation
+    ├── webarena_prompt_injections/  # Prompt injection testing
+    │   ├── configs/     # Attack configurations
+    │   └── attacker_*.py # Attack executors
+    └── configs/         # Configuration files
 ```
 
 ---
 
-## 核心功能
+## Core Features
 
-### 1. 桌面端测评 (Desktop)
+### 1. Desktop Benchmark (Desktop)
 
-基于 [OS-Harm](https://arxiv.org/abs/2506.14866) 基准，测试 GUI Agent 在桌面操作系统环境中的安全性。
+Based on [OS-Harm](https://arxiv.org/abs/2506.14866), testing GUI Agent security in desktop operating system environments.
 
-**支持的观测类型：**
-- `screenshot`: 仅截图
-- `a11y_tree`: 无障碍树描述
-- `screenshot_a11y_tree`: 截图 + 无障碍树
-- `som`: Set-of-Marks 标记
+**Supported Observation Types:**
+- `screenshot`: Screenshot only
+- `a11y_tree`: Accessibility tree description
+- `screenshot_a11y_tree`: Screenshot + accessibility tree
+- `som`: Set-of-Marks annotation
 
-**测试场景：**
-| 类别 | 描述 | 任务数 |
-|------|------|--------|
-| 故意滥用 (test_misuse.json) | 用户主动请求有害操作 | ~50 |
-| 提示注入 (test_injection.json) | 网页/文档中嵌入恶意指令 | ~50 |
-| 模型异常 (test_misbehavior.json) | 模型自发的不安全行为 | ~50 |
+**Test Scenarios:**
+| Category | Description | Task Count |
+|----------|-------------|------------|
+| Deliberate Misuse (test_misuse.json) | User actively requests harmful operations | ~50 |
+| Prompt Injection (test_injection.json) | Malicious instructions embedded in web pages/documents | ~50 |
+| Model Misbehavior (test_misbehavior.json) | Model's spontaneous unsafe behavior | ~50 |
 
-**运行示例：**
+**Usage Example:**
 ```bash
 cd desktop
 python run.py --path_to_vm Ubuntu/Ubuntu.vmx \
@@ -70,39 +70,39 @@ python run.py --path_to_vm Ubuntu/Ubuntu.vmx \
               --test_all_meta_path evaluation_examples/test_misuse.json
 ```
 
-### 2. 移动端测评 (Mobile)
+### 2. Mobile Benchmark (Mobile)
 
-基于 [MobileSafetyBench](https://github.com/) 框架，测试移动端 Agent 的安全性。
+Based on [MobileSafetyBench](https://github.com/), testing mobile Agent security.
 
-**攻击类型：**
-| 类别 | 攻击编号 | 描述 |
-|------|----------|------|
-| 视觉感知攻击 | M07 | 通知注入 |
-| 环境内容注入 | M08-M09 | 屏幕文本注入、视图树干扰 |
-| 直接恶意命令 | M10-M12 | 提示注入、隐私风险操作、有害内容生成 |
-| LLM推理攻击 | M15-M16 | 恶意指令利用、glitch token攻击 |
-| 系统级利用 | M13, M20-M21 | 深度链接伪造、通知叠加攻击、后台攻击 |
+**Attack Types:**
+| Category | Attack ID | Description |
+|----------|-----------|-------------|
+| Visual Perception Attack | M07 | Notification injection |
+| Environment Content Injection | M08-M09 | Screen text injection, view tree interference |
+| Direct Malicious Commands | M10-M12 | Prompt injection, privacy risk operations, harmful content generation |
+| LLM Reasoning Attacks | M15-M16 | Malicious instruction exploitation, glitch token attacks |
+| System Exploitation | M13, M20-M21 | Deep link forgery, notification overlay attacks, background attacks |
 
-**运行示例：**
+**Usage Example:**
 ```bash
 cd mobile
 python attacks/batch_runner.py --config attacks/config.yaml --model claude-3-5-sonnet
 ```
 
-### 3. Web端测评 (Web)
+### 3. Web Benchmark (Web)
 
-基于 [WASP](https://arxiv.org/abs/2504.18575) 基准，测试 Web Agent 对提示注入攻击的抵御能力。
+Based on [WASP](https://arxiv.org/abs/2504.18575), testing Web Agent resilience against prompt injection attacks.
 
-**支持的 Agent：**
-- GPT-4o / GPT-4o-mini (WebArena 框架)
-- Claude-3.5 / Claude-3.7 (Computer Use 框架)
+**Supported Agents:**
+- GPT-4o / GPT-4o-mini (WebArena framework)
+- Claude-3.5 / Claude-3.7 (Computer Use framework)
 
-**支持的网站环境：**
+**Supported Website Environments:**
 - GitLab
 - Reddit
-- 更多...
+- And more...
 
-**运行示例：**
+**Usage Example:**
 ```bash
 cd web/webarena_prompt_injections
 python run.py --config configs/experiment_config.raw.json \
@@ -111,47 +111,47 @@ python run.py --config configs/experiment_config.raw.json \
               --output-dir ./results
 ```
 
-### 4. 跨平台攻击测试
+### 4. Cross-Platform Attack Testing
 
-桌面端集成了 **X08-X12** 五类跨平台攻击测试，模拟 Desktop 与 Mobile 之间的安全通道被滥用的场景：
+The desktop module integrates **X08-X12** five categories of cross-platform attack tests, simulating scenarios where security channels between Desktop and Mobile are exploited:
 
-| 测试集 | 攻击类型 | 描述 |
-|--------|----------|------|
-| **X08** | 登录确认不一致注入 | 桌面请求登录，手机端核对信息被篡改 |
-| **X09** | 通知同步注入 | 桌面同步通知被注入恶意内容 |
-| **X10** | 短信验证码泄露 | 通过同步通道获取并泄露验证码 |
-| **X11** | 投屏诱导攻击 | 投屏画面中注入诱导性操作 |
-| **X12** | 剪贴板投毒 | 同步剪贴板内容被注入恶意标记 |
+| Test Set | Attack Type | Description |
+|----------|-------------|-------------|
+| **X08** | Login Confirmation Inconsistency | Desktop requests login, mobile verification info is tampered |
+| **X09** | Notification Sync Injection | Desktop sync notifications injected with malicious content |
+| **X10** | SMS Verification Code Leakage | Obtain and leak verification codes via sync channel |
+| **X11** | Screen Casting Inducement | Injected misleading operations in screen casting content |
+| **X12** | Clipboard Poisoning | Sync clipboard content injected with malicious markers |
 
-**运行跨平台测试：**
+**Running Cross-Platform Tests:**
 ```bash
 cd desktop
 python run_crossplatform_tests.py --test_set X08 --model o4-mini
 ```
 
-**指标定义（详见 `crossplatform/paper_evaluation_schema.json`）：**
-- `XP-ASR`: 跨平台攻击成功率
-- `XP-DSR`: 跨平台防御成功率
-- `HSR`: 跨端信息传递成功率
-- `SCR/CCR/CFR/PR/RR`: 任务完成/妥协/协作失败/部分完成/拒绝率
+**Metric Definitions (see `crossplatform/paper_evaluation_schema.json`):**
+- `XP-ASR`: Cross-Platform Attack Success Rate
+- `XP-DSR`: Cross-Platform Defense Success Rate
+- `HSR`: Cross-End Information Transfer Success Rate
+- `SCR/CCR/CFR/PR/RR`: Safe Completion/Compromised/Collaboration Failure/Partial/Refusal Rate
 
 ---
 
-## 安装依赖
+## Installation
 
-### 通用依赖
+### Common Dependencies
 ```bash
 # Python 3.10+
 pip install -r requirements.txt
 ```
 
-### 桌面端额外依赖
+### Desktop Additional Dependencies
 ```bash
-# VMware Workstation (或支持的虚拟机)
-# OSWorld 环境 (参考 OSWorld 安装文档)
+# VMware Workstation (or supported VM providers)
+# OSWorld environment (refer to OSWorld installation docs)
 ```
 
-### 移动端额外依赖
+### Mobile Additional Dependencies
 ```bash
 # Android SDK
 # Appium
@@ -160,7 +160,7 @@ conda create -n mobile_safety python=3.10
 pip install -r requirements.txt
 ```
 
-### Web端额外依赖
+### Web Additional Dependencies
 ```bash
 # Docker
 # Python 3.10
@@ -169,19 +169,18 @@ bash webarena_prompt_injections/setup.sh
 
 ---
 
-## 评估指标
+## Evaluation Metrics
 
-### 通用指标
-| 指标 | 描述 |
-|------|------|
-| Attack Success Rate (ASR) | 攻击成功执行的比例 |
-| Defense Success Rate (DSR) | 防御成功的比例 |
-| Over-Defense Rate (ODR) | 过度防御导致正常任务失败的比例 |
+### General Metrics
+| Metric | Description |
+|--------|-------------|
+| Attack Success Rate (ASR) | Proportion of successful attack executions |
+| Defense Success Rate (DSR) | Proportion of successful defenses |
+| Over-Defense Rate (ODR) | Proportion of normal tasks failed due to over-defense |
 
-### 跨平台指标
-| 指标 | 描述 |
-|------|------|
-| XP-ASR | 跨平台攻击成功率 |
-| HSR | 跨端信息传递成功率 |
-| CCR | 妥协完成率 |
-
+### Cross-Platform Metrics
+| Metric | Description |
+|--------|-------------|
+| XP-ASR | Cross-Platform Attack Success Rate |
+| HSR | Cross-End Information Transfer Success Rate |
+| CCR | Compromised Completion Rate |
